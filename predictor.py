@@ -71,9 +71,27 @@ def predict_post(post):
         spam_classes[i]: float(spam_probabilities[i])
         for i in range(len(spam_classes))
     }
+    # Confidence percentages
+    spam_conf = spam_scores["spam"] * 100
+    genuine_conf = spam_scores["genuine"] * 100
 
+# Difference between probabilities
+    difference = abs(genuine_conf - spam_conf)
+
+# Threshold (adjust if needed)
+    CONFIDENCE_GAP = 15
+    if difference < CONFIDENCE_GAP:
+
+        return {
+            "type": "May Be Spam",
+            "spam_confidence": round(spam_conf, 2),
+            "genuine_confidence": round(genuine_conf, 2),
+            "subject": None,
+            "subject_confidence": None
+        }
+     
     # If spam
-    if spam_prediction.lower() == "spam":
+    elif spam_prediction.lower() == "spam":
 
         return {
             "type": "Spam",

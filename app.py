@@ -79,6 +79,23 @@ if st.button("Predict"):
             )
 
             st.progress(result["spam_confidence"]/100)
+        elif result["type"] == "May Be Spam":
+
+            st.warning("⚠️ This post may be spam.")
+
+            st.write(
+                "The classifier is not confident enough to classify this post as either Spam or Genuine. Manual review needed!"
+            )
+
+            st.metric(
+                "Spam Confidence",
+                f"{result['spam_confidence']}%"
+            )
+
+            st.metric(
+                "Genuine Confidence",
+                f"{result['genuine_confidence']}%"
+            )
 
 
         # Genuine Post
